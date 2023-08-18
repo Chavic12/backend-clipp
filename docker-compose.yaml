@@ -11,4 +11,4 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     container_name: clipdb
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres:/var/postgresql/data
