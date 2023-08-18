@@ -1,14 +1,13 @@
 version: '3'
 services:
   db:
-    image: postgres:14.3
+    image: mysql:8.0
     restart: always
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-      PGDATA: /var/lib/postgresql/data/pgdata
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
     container_name: clipp
     volumes:
-      - ./postgres:/var/postgresql/data
+      - ./mysql:/var/lib/mysql
