@@ -1,4 +1,4 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsDecimal, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateActividadeDto {
     @IsString()
@@ -8,6 +8,10 @@ export class CreateActividadeDto {
     @IsString()
     @MinLength(1)
     descripcion: string;
+
+    @IsDecimal()
+    @IsOptional()
+    total?: number;
 }
 
 

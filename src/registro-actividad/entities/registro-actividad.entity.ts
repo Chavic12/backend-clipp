@@ -16,6 +16,9 @@ export class RegistroActividad {
     @Column('text')
     estado: string;
 
+    @Column('double')
+    progreso: number;
+
     @Column('timestamp', {nullable: true})
     fechaCompletado: Date;
 }

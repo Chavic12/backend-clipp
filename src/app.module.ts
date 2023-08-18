@@ -11,7 +11,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { RegistroActividadModule } from './registro-actividad/registro-actividad.module';
 import { RegistroInsigniaModule } from './registro-insignia/registro-insignia.module';
 import { RegistroBeneficioModule } from './registro-beneficio/registro-beneficio.module';
-import { InsigniaBeneficioModule } from './insignia-beneficio/insignia-beneficio.module';
 
 
 @Module({
@@ -38,7 +37,6 @@ import { InsigniaBeneficioModule } from './insignia-beneficio/insignia-beneficio
     RegistroActividadModule,
     RegistroInsigniaModule,
     RegistroBeneficioModule,
-    InsigniaBeneficioModule,
   ],
 
 })

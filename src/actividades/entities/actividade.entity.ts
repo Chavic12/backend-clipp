@@ -10,6 +10,10 @@ export class Actividade {
     nombre: string;
     @Column('text')
     descripcion: string;
+
+    @Column('double')
+    total: number;
+
     @OneToMany(() => RegistroActividad, registro => registro.actividad)
     registros: RegistroActividad[];
 
