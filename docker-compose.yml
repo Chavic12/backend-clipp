@@ -9,6 +9,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
       PGDATA: /var/lib/postgresql/data/pgdata
-    container_name: clipdb
+    container_name: clipp
     volumes:
       - ./postgres:/var/postgresql/data
