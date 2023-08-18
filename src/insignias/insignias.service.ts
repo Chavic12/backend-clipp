@@ -22,8 +22,20 @@ export class InsigniasService {
   ) { }
 
   async create(createInsigniaDto: CreateInsigniaDto, file: Express.Multer.File) {
+    const idActividad = createInsigniaDto.actividadId;
+
+    const actividad = await this.actividadRepository.findOneBy({ id: idActividad });
+
+    if (!actividad) {
+      throw new NotFoundException(`Actividad con ID ${idActividad} no encontrado`);
+    }
+
     try {
-      const newInsignia = this.insigniaRepository.create(createInsigniaDto);
+
+      const newInsignia = this.insigniaRepository.create({
+        ...createInsigniaDto,
+        actividad,
+      });
       const savedInsignia = await this.insigniaRepository.save(newInsignia);
 
       const uploadedImage: UploadApiResponse | UploadApiErrorResponse = await this.cloudinaryService.uploadImage(file, savedInsignia.id);
@@ -33,9 +45,6 @@ export class InsigniasService {
       await this.insigniaRepository.save(savedInsignia);
 
       // Aquí asumes que tienes los IDs de las actividades asociadas en createInsigniaDto
-      const actividadId = createInsigniaDto.actividadId;
-      const actividades = await this.actividadRepository.findOneBy({ id: actividadId });
-      savedInsignia.actividad = actividades; // Asocia las actividades a la insignia
       return savedInsignia;
     } catch (error) {
       this.handleDBExceptions(error);
