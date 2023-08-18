@@ -14,9 +14,8 @@ export class CloudinaryService {
   async uploadImage(
     file: Express.Multer.File, id: number
   ): Promise<UploadApiResponse | UploadApiErrorResponse> {
-    const imageName = `beneficioImage${id}`;
     return new Promise((resolve, reject) => {
-      const upload = v2.uploader.upload_stream({ public_id: imageName }, (error, result) => {
+      const upload = v2.uploader.upload_stream( (error, result) => {
         if (error) return reject(error);
         resolve(result);
       });
