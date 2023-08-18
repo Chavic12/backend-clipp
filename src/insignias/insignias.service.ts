@@ -67,12 +67,23 @@ export class InsigniasService {
   }
 
   async update(id: number, updateInsigniaDto: UpdateInsigniaDto, file?: Express.Multer.File) {
+    const idActividad = updateInsigniaDto.actividadId;
+    const actividad = await this.actividadRepository.findOneBy({ id: idActividad });
+
+    if (!actividad) {
+      throw new NotFoundException(`Actividad con ID ${idActividad} no encontrado`);
+    }
+
     const insignia = await this.insigniaRepository.preload({
       id: id,
-      ...updateInsigniaDto
+      titulo: updateInsigniaDto.titulo,
+      descripcion: updateInsigniaDto.descripcion,
+      imagenUrl: updateInsigniaDto.imagenUrl,
+      tipo: updateInsigniaDto.tipo,
+      actividad,
     })
 
-    if( !insignia ) throw new NotFoundException(`Beneficio #${id} not found`);
+    if( !insignia ) throw new NotFoundException(`Insignia #${id} not found`);
     if (file) {
       const uploadedImage: UploadApiResponse | UploadApiErrorResponse = await this.cloudinaryService.uploadImage(file, insignia.id);
       insignia.imagenUrl = uploadedImage.secure_url;

@@ -9,7 +9,6 @@ export class CreateInsigniaDto {
     tipo: string;
     @IsString()
     imagenUrl?: string;
-
     @IsInt()
     actividadId: number;
 }
