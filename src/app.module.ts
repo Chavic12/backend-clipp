@@ -19,11 +19,11 @@ import { InsigniaBeneficioModule } from './insignia-beneficio/insignia-beneficio
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql', // Cambiamos 'postgres' a 'mysql' para MySQL
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      host: 'containers-us-west-38.railway.app',
+      port: 5682,
+      database: 'railway',
+      username: 'root',
+      password: 'wDKMORXqlQHaGl3ljqKY',
       autoLoadEntities: true,
       synchronize: true,
     }),
