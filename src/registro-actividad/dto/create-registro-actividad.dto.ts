@@ -11,4 +11,6 @@ export class CreateRegistroActividadDto {
     @IsDate()
     @IsOptional()
     fechaCompletado?: Date;
+    @IsOptional()
+    progreso?: number;
 }
