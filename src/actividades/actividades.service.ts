@@ -5,6 +5,8 @@ import { Actividade } from './entities/actividade.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { RegistroActividad } from 'src/registro-actividad/entities/registro-actividad.entity';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 @Injectable()
 export class ActividadesService {
@@ -14,18 +16,46 @@ export class ActividadesService {
   constructor(
     @InjectRepository(Actividade)
     private readonly actividadRepository: Repository<Actividade>,
+    @InjectRepository(RegistroActividad)
+    private readonly registroActividadRepository: Repository<RegistroActividad>,
+    @InjectRepository(Usuario) // Inyecta el repositorio de usuarios
+    private readonly usuarioRepository: Repository<Usuario>, // Agrega esta línea
   ) { }
   
-    
   async create(createActividadeDto: CreateActividadeDto) {
     try {
       const actividad = this.actividadRepository.create(createActividadeDto);
       await this.actividadRepository.save(actividad);
+
+      // Obtener la lista de usuarios
+      const usuarios = await this.usuarioRepository.find();
+
+      // Crear registros en RegistroActividad para cada usuario y actividad
+      for (const usuario of usuarios) {
+        const registro = this.registroActividadRepository.create({
+          usuario,
+          actividad,
+          estado: false,
+          progreso: 0,
+        });
+        await this.registroActividadRepository.save(registro);
+      }
+
       return actividad;
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
+    
+  // async create(createActividadeDto: CreateActividadeDto) {
+  //   try {
+  //     const actividad = this.actividadRepository.create(createActividadeDto);
+  //     await this.actividadRepository.save(actividad);
+  //     return actividad;
+  //   } catch (error) {
+  //     this.handleDBExceptions(error);
+  //   }
+  // }
 
   async findAll(paginationDto: PaginationDto) {
     const { limit = 10, offset = 0 } = paginationDto;
