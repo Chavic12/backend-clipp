@@ -23,7 +23,7 @@ export class RegistroActividadController {
   }
 
   @Patch(':id/completar')
-  update(
+  updateCompletado(
     @Param('id') id: string,
     @Body() updateRegistroActividadDto: UpdateRegistroActividadDto,
   ) {
@@ -32,4 +32,14 @@ export class RegistroActividadController {
       updateRegistroActividadDto,
     );
   }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateRegistroActividadDto: UpdateRegistroActividadDto,
+  )
+  {
+    return this.registroActividadService.update(+id, updateRegistroActividadDto);
+  }
+  
 }

@@ -71,6 +71,15 @@ export class RegistroActividadService {
 
     return registro;
   }
+
+  async update( registroId: number, updateRegistroActividadDto: UpdateRegistroActividadDto): Promise<RegistroActividad> {
+    const registro = await this.registroActividadRepository.preload({
+      id: registroId,
+      ...updateRegistroActividadDto
+    }) 
+    await this.registroActividadRepository.save(registro);
+    return registro;
+  }
   
   private handleDBExceptions(error: any) {
     if (error.code === '23505') {
