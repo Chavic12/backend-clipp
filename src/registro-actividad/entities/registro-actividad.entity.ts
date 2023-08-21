@@ -16,7 +16,7 @@ export class RegistroActividad {
     @Column('text')
     estado: string;
 
-    @Column('double')
+    @Column('double', { nullable: true })
     progreso: number;
 
     @Column('timestamp', {nullable: true})
