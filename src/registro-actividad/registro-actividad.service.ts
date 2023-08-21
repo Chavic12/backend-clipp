@@ -39,13 +39,13 @@ export class RegistroActividadService {
   
 
     // Agregar el valor 'pendiente' al estado en el DTO
-    createRegistro.estado = 'pendiente';
+    createRegistro.estado = false;
 
     try {
       const registro = this.registroActividadRepository.create({
         usuario, // Asigna la instancia de Usuario
         actividad, // Asigna la instancia de Actividad
-        estado: 'pendiente', // Asigna el estado por defecto
+        estado: false, // Asigna el estado por defecto
         fechaCompletado: null, // Asigna la fecha nula por defecto
       });
   
@@ -62,8 +62,8 @@ export class RegistroActividadService {
       ...updateRegistroActividadDto
     })
     // Verifica si el registro está en estado "pendiente" antes de actualizar
-    if (registro.estado === 'pendiente') {
-      registro.estado = 'completado';
+    if (registro.estado === false) {
+      registro.estado = true;
       registro.fechaCompletado = new Date(); // Establece la fecha actual
 
       await this.registroActividadRepository.save(registro);

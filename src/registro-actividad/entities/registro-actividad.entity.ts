@@ -13,8 +13,8 @@ export class RegistroActividad {
     @ManyToOne( () => Actividade, actividad => actividad.id)
     actividad: Actividade;
 
-    @Column('text')
-    estado: string;
+    @Column('boolean')
+    estado: boolean;
 
     @Column('double', { nullable: true })
     progreso: number;

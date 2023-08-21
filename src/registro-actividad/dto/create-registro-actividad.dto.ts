@@ -1,13 +1,13 @@
-import { IsDate, IsIn, IsInt, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsIn, IsInt, IsOptional, IsString } from "class-validator";
 
 export class CreateRegistroActividadDto {
     @IsInt()
     usuarioId: number;
     @IsInt()
     actividadId: number;
-    @IsString()
+    @IsBoolean()
     @IsOptional()
-    estado?: string;
+    estado?: boolean;
     @IsDate()
     @IsOptional()
     fechaCompletado?: Date;
