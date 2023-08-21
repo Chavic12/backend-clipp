@@ -24,7 +24,10 @@ export class ActividadesService {
   
   async create(createActividadeDto: CreateActividadeDto) {
     try {
-      const actividad = this.actividadRepository.create(createActividadeDto);
+      const actividad = this.actividadRepository.create({
+        progreso: 0,
+        ...createActividadeDto,
+      });
       await this.actividadRepository.save(actividad);
 
       // Obtener la lista de usuarios

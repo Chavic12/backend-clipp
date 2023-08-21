@@ -12,6 +12,10 @@ export class CreateActividadeDto {
     @IsDecimal()
     @IsOptional()
     total?: number;
+
+    @IsDecimal()
+    @IsOptional()
+    progreso?: number;
 }
 
 
