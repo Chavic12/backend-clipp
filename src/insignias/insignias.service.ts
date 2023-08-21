@@ -63,10 +63,19 @@ export class InsigniasService {
   }
 
   async findOne(id: number) {
-    const insiginia = await this.insigniaRepository.findOneBy({ id })
-    if( !insiginia ) throw new NotFoundException(`Beneficio #${id} not found`);
-    return insiginia;
-  }
+    const queryBuilder = this.insigniaRepository.createQueryBuilder('insignia');
+    const insignia = await queryBuilder
+        .where('insignia.id = :id', { id })
+        .leftJoinAndSelect('insignia.actividad', 'actividad')
+        .getOne();
+
+    if (!insignia) {
+        throw new NotFoundException(`Insignia #${id} not found`);
+    }
+
+    return insignia;
+}
+
 
   async update(id: number, updateInsigniaDto: UpdateInsigniaDto, file?: Express.Multer.File) {
     const idActividad = updateInsigniaDto.actividadId;
