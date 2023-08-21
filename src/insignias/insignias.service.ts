@@ -56,7 +56,9 @@ export class InsigniasService {
     return this.insigniaRepository.find({
       take: limit,
       skip: offset,
-      // TODO: RELACIONES
+      relations: {
+        actividad: true,
+      }
     });
   }
 

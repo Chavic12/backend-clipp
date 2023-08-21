@@ -17,4 +17,7 @@ export class Beneficio {
     @Column('text')
     descuento: string;
 
+    @Column('date', { nullable: true })
+    fecha: Date;
+
 }

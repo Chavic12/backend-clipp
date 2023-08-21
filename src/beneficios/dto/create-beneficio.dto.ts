@@ -1,4 +1,4 @@
-import { IsInt, IsString } from "class-validator";
+import { IsDate, IsInt, IsOptional, IsString } from "class-validator";
 
 export class CreateBeneficioDto {
     @IsString()
@@ -9,5 +9,7 @@ export class CreateBeneficioDto {
     imagenUrl?: string;
     @IsString()
     descuento: string;
-
+    @IsDate()
+    @IsOptional()
+    fecha?: Date;
 }
