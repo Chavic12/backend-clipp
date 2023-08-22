@@ -49,15 +49,16 @@ export class UsuariosService {
   }
 
   async getUserWithActividades(userId: number) {
-
-    const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
-      .leftJoinAndSelect('usuario.registroActividad', 'registros')
-      .leftJoinAndSelect('registros.actividad', 'actividad')
-      .where('usuario.id = :userId', { userId })
-      .getOne();
+    const queryBuilder = this.usuarioRepository
+      .createQueryBuilder('usuario')
+      .leftJoinAndSelect('usuario.registroActividad', 'registrosActividades')
+      .leftJoinAndSelect('registrosActividades.actividad', 'actividad')
+      .leftJoinAndSelect('actividad.insignias', 'insignias')
+      .where('usuario.id = :userId', { userId });
   
-    return queryBuilder;
+    return queryBuilder.getOne();
   }
+  
   
   
 
