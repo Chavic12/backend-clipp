@@ -17,7 +17,7 @@ export class ActividadesController {
   findAll( @Query() paginationDto: PaginationDto) {
     return this.actividadesService.findAll(paginationDto);
   }
-
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.actividadesService.findOne(+id);

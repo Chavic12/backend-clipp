@@ -1,4 +1,5 @@
 import { RegistroActividad } from 'src/registro-actividad/entities/registro-actividad.entity';
+import { RegistroBeneficio } from 'src/registro-beneficio/entities/registro-beneficio.entity';
 import { RegistroInsignia } from 'src/registro-insignia/entities/registro-insignia.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,5 +18,8 @@ export class Usuario {
   registroActividad: RegistroActividad[];
 
   @OneToMany(() => RegistroInsignia, regInsignia => regInsignia.insignia)
-  registroInsignia: RegistroInsignia[];
+  insignias: RegistroInsignia[];
+
+  @OneToMany(() => RegistroBeneficio, regBeneficio => regBeneficio.beneficio)
+  cupones: RegistroBeneficio[];
 }

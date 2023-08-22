@@ -38,6 +38,29 @@ export class UsuariosService {
     return usuarios;
   }
 
+  async getUserWithInsigniasAndBeneficios(userId: number) {
+    const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
+      .leftJoinAndSelect('usuario.insignias', 'insignias')
+      .leftJoinAndSelect('usuario.cupones', 'cupones')
+      .where('usuario.id = :userId', { userId })
+      .getOne();
+  
+    return queryBuilder;
+  }
+
+  async getUserWithActividades(userId: number) {
+
+    const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
+      .leftJoinAndSelect('usuario.registroActividad', 'registros')
+      .leftJoinAndSelect('registros.actividad', 'actividad')
+      .where('usuario.id = :userId', { userId })
+      .getOne();
+  
+    return queryBuilder;
+  }
+  
+  
+
   async findOne(id: number) {
     const usuario = await this.usuarioRepository.findOneBy({ id })
     if( !usuario ) throw new NotFoundException(`Usuario #${id} not found`);

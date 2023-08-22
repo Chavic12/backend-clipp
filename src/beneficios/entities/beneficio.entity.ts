@@ -6,6 +6,9 @@ export class Beneficio {
     id: number;
 
     @Column('text')
+    titulo: string;
+
+    @Column('text')
     descripcion: string;
 
     @Column('text')
