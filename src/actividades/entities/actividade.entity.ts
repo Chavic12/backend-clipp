@@ -12,9 +12,6 @@ export class Actividade {
     descripcion: string;
 
     @Column('double')
-    progreso: number;
-
-    @Column('double')
     total: number;
 
     @OneToMany(() => RegistroActividad, registro => registro.actividad)
