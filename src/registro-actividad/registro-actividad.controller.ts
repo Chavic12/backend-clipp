@@ -33,13 +33,16 @@ export class RegistroActividadController {
     );
   }
 
-  @Patch(':id')
+  @Patch(':userId/actividad/:actividadId')
   update(
-    @Param('id') id: string,
+    @Param('userId') userId: string,
+    @Param('actividadId') actividadId: string,
     @Body() updateRegistroActividadDto: UpdateRegistroActividadDto,
-  )
-  {
-    return this.registroActividadService.update(+id, updateRegistroActividadDto);
+  ) {
+    return this.registroActividadService.updateRegistroActividad(
+      +userId,
+      +actividadId,
+      updateRegistroActividadDto,
+    );
   }
-  
 }

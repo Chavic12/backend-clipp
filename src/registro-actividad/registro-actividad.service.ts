@@ -72,14 +72,18 @@ export class RegistroActividadService {
     return registro;
   }
 
-  async update( registroId: number, updateRegistroActividadDto: UpdateRegistroActividadDto): Promise<RegistroActividad> {
-    const registro = await this.registroActividadRepository.preload({
-      id: registroId,
-      ...updateRegistroActividadDto
-    }) 
-    await this.registroActividadRepository.save(registro);
-    return registro;
+  async updateRegistroActividad(userId: number, actividadId: number, updateData: Partial<RegistroActividad>) {
+    await this.registroActividadRepository.update(
+      { usuario: { id: userId }, actividad: { id: actividadId } },
+      updateData
+    );
+
+    return this.registroActividadRepository.findOne({
+      where: { usuario: { id: userId }, actividad: { id: actividadId } },
+      relations: ['usuario', 'actividad'],
+    });
   }
+  
   
   private handleDBExceptions(error: any) {
     if (error.code === '23505') {
