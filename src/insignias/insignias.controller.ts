@@ -23,6 +23,11 @@ export class InsigniasController {
     return this.insigniasService.findAll(paginationDto);
   }
 
+  @Get('todo/:id')
+  findOneTodo(@Param('id') id: string) {
+    return this.insigniasService.getInsigniaDetailsById(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.insigniasService.findOne(+id);

@@ -88,6 +88,19 @@ export class InsigniasService {
 
     return insignia;
   }
+  
+  async getInsigniaDetailsById(insigniaId: number) {
+    return this.insigniaRepository.findOne({
+      where: { id: insigniaId },
+      relations: [
+        'actividad',
+        'actividad.registros',
+        'actividad.registros.usuario',
+      ],
+    });
+  }
+  
+
 
   async update(
     id: number,
