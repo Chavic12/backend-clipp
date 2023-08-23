@@ -89,17 +89,15 @@ export class InsigniasService {
     return insignia;
   }
 
-  async getInsigniaDetailsByInsigniaIdAndUserId(insigniaId: number, userId: number) {
-  const queryBuilder = this.insigniaRepository.createQueryBuilder('insignia')
-    .where('insignia.id = :insigniaId', { insigniaId })
+  async getInsigniasForUsuario(userId: number) {
+  return this.insigniaRepository
+    .createQueryBuilder('insignia')
     .leftJoinAndSelect('insignia.actividad', 'actividad')
-    .leftJoinAndSelect('actividad.registros', 'registroActividad')
-    .leftJoinAndSelect('registroActividad.usuario', 'usuario')
-    .andWhere('usuario.id = :userId', { userId })
-    .getOne();
-
-  return queryBuilder;
+    .leftJoinAndSelect('actividad.registros', 'registro', 'registro.usuario = :userId', { userId })
+    .leftJoinAndSelect('registro.usuario', 'usuario')
+    .getMany();
 }
+
 
   
 

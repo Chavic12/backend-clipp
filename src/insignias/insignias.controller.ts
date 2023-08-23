@@ -23,12 +23,11 @@ export class InsigniasController {
     return this.insigniasService.findAll(paginationDto);
   }
 
-  @Get('insignia/:insigniaId/usuario/:userId')
+  @Get('usuario/:userId')
   findOneInsigniaAndUsuario(
-    @Param('insigniaId') insigniaId: string,
     @Param('userId') userId: string
   ) {
-    return this.insigniasService.getInsigniaDetailsByInsigniaIdAndUserId(+insigniaId, +userId);
+    return this.insigniasService.getInsigniasForUsuario(+userId);
   }
   
 
