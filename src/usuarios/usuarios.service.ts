@@ -33,6 +33,10 @@ export class UsuariosService {
     const usuarios = await this.usuarioRepository.find({
       take: limit,
       skip: offset,
+      relations: {
+        insignias: true,
+        registroActividad: true,
+      }
       // TODO: RELACIONES 
     })
     return usuarios;
