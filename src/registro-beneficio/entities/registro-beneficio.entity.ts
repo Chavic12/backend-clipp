@@ -1,9 +1,10 @@
 import { Beneficio } from "src/beneficios/entities/beneficio.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
+@Index(['usuario', 'beneficio'], { unique: true }) // Índice único en las relaciones
 export class RegistroBeneficio {
     @PrimaryGeneratedColumn()
     id: number;

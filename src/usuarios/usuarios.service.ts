@@ -80,7 +80,6 @@ async getUserWithInsigniasAndBeneficios(userId: number) {
     .leftJoinAndSelect('usuario.cupones', 'cupones')
     .leftJoinAndSelect('cupones.beneficio', 'detalleCupon')
     .addSelect('insignias.id', 'insignia_id')
-    .addSelect('insignias.fechaCompletado', 'insignias_fechaCompletado')
     .addSelect('detalleInsignia.id', 'idInsignia')
     .addSelect('detalleInsignia.titulo', 'detalleInsignia_titulo')
     .addSelect('detalleInsignia.descripcion', 'detalleInsignia_descripcion')
@@ -100,32 +99,31 @@ async getUserWithInsigniasAndBeneficios(userId: number) {
   if (result) {
     const cuponFields = ['idBeneficio', 'tituloBeneficio', 'descripcionBeneficio', 'detalleCupon_cupon', 'imagenUrlBeneficio', 'detalleCupon_descuento', 'detalleCupon_fecha'];
 
+    const insigniaFields = ['idInsignia', 'detalleInsignia_titulo', 'detalleInsignia_descripcion', 'detalleInsignia_imagenUrl', 'detalleInsignia_tipo'];
     // Verificar si todos los campos de cupones son nulos
     const allCuponFieldsAreNull = cuponFields.every(field => result[field] === null);
+    const allInsigniaFieldsAreNull = insigniaFields.every(field => result[field] === null);
 
     const usuario = {
       id: result.usuario_id,
       nombre: result.usuario_nombre,
       correo: result.usuario_correo,
-      insignias: [
+      insignias: allInsigniaFieldsAreNull ? [] : [
         {
-          id: result.insignia_id,
-          fechaCompletado: result.insignias_fechaCompletado,
-          idInsigna: result.idInsignia,
+          id: result.idInsignia,
           titulo: result.detalleInsignia_titulo,
           descripcion: result.detalleInsignia_descripcion,
           imagenUrl: result.detalleInsignia_imagenUrl,
           tipo: result.detalleInsignia_tipo,
         },
       ],
-      cupones: allCuponFieldsAreNull ? [] : [
+      cupones: [
         {
-          id: result.cupon_id,
-          idBeneficio: result.idBeneficio,
-          tituloBeneficio: result.tituloBeneficio,
-          descripcionBeneficio: result.descripcionBeneficio,
+          id: result.idBeneficio,
+          titulo: result.tituloBeneficio,
+          descripcion: result.descripcionBeneficio,
           cupon: result.detalleCupon_cupon,
-          imagenUrlBeneficio: result.imagenUrlBeneficio,
+          imagenUrl: result.imagenUrlBeneficio,
           descuento: result.detalleCupon_descuento,
           fecha: result.detalleCupon_fecha,
         },
