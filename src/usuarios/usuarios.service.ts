@@ -105,7 +105,7 @@ export class UsuariosService {
         id: results[0].usuario_id,
         nombre: results[0].usuario_nombre,
         correo: results[0].usuario_correo,
-        insignias: results.map(result => ({
+        insignias: results[0].insignia_id ? results.map(result => ({
           id: result.insignia_id,
           fechaCompletado: result.insignias_fechaCompletado,
           idInsignia: result.idInsignia,
@@ -113,8 +113,8 @@ export class UsuariosService {
           descripcion: result.detalleInsignia_descripcion,
           imagenUrl: result.detalleInsignia_imagenUrl,
           tipo: result.detalleInsignia_tipo,
-        })),
-        cupones: results.map(result => ({
+        })) : [],
+        cupones: results[0].cupon_id ? results.map(result => ({
           id: result.cupon_id,
           idBeneficio: result.idBeneficio,
           tituloBeneficio: result.tituloBeneficio,
@@ -123,7 +123,7 @@ export class UsuariosService {
           imagenUrlBeneficio: result.imagenUrlBeneficio,
           descuento: result.detalleCupon_descuento,
           fecha: result.detalleCupon_fecha,
-        })),
+        })) : [],
       };
   
       return usuario;
@@ -132,7 +132,6 @@ export class UsuariosService {
     return null;
   }
   
-
   async getUserWithActividades(userId: number) {
     const queryBuilder = this.usuarioRepository
       .createQueryBuilder('usuario')
