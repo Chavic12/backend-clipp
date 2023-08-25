@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
@@ -13,16 +19,13 @@ export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
-  ) { }
-  
-
+  ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     try {
       const usuario = this.usuarioRepository.create(createUsuarioDto);
       await this.usuarioRepository.save(usuario);
       return usuario;
-      
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -36,110 +39,99 @@ export class UsuariosService {
       relations: {
         insignias: true,
         registroActividad: true,
-      }
-      // TODO: RELACIONES 
-    })
+      },
+      // TODO: RELACIONES
+    });
     return usuarios;
   }
 
-//   async getUserWithInsigniasAndBeneficios(userId: number) {
-//   const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
-//     .select([
-//       'usuario.id',
-//       'usuario.nombre',
-//       'usuario.correo'
-//     ])
-//     .addSelect('insignias.id', 'insignia_id')
-//     .addSelect('insignias.fechaCompletado')
-//     .addSelect('detalleInsignia.id', 'idInsigna')
-//     .addSelect('detalleInsignia.titulo')
-//     .addSelect('detalleInsignia.descripcion')
-//     .addSelect('detalleInsignia.imagenUrl')
-//     .addSelect('detalleInsignia.tipo')
-//     .addSelect('detalleCupon.id', 'idBeneficio')
-//     .addSelect('detalleCupon.titulo', 'tituloBeneficio')
-//     .addSelect('detalleCupon.descripcion', 'descripcionBeneficio')
-//     .addSelect('detalleCupon.cupon')
-//     .addSelect('detalleCupon.imagenUrl', 'imagenUrlBeneficio')
-//     .addSelect('detalleCupon.descuento')
-//     .addSelect('detalleCupon.fecha')
-//     .leftJoin('usuario.insignias', 'insignias')
-//     .leftJoin('insignias.insignia', 'detalleInsignia')
-//     .leftJoin('usuario.cupones', 'cupones')
-//     .leftJoin('cupones.beneficio', 'detalleCupon')
-//     .where('usuario.id = :userId', { userId })
-//     .getRawOne();
+  //   async getUserWithInsigniasAndBeneficios(userId: number) {
+  //   const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
+  //     .select([
+  //       'usuario.id',
+  //       'usuario.nombre',
+  //       'usuario.correo'
+  //     ])
+  //     .addSelect('insignias.id', 'insignia_id')
+  //     .addSelect('insignias.fechaCompletado')
+  //     .addSelect('detalleInsignia.id', 'idInsigna')
+  //     .addSelect('detalleInsignia.titulo')
+  //     .addSelect('detalleInsignia.descripcion')
+  //     .addSelect('detalleInsignia.imagenUrl')
+  //     .addSelect('detalleInsignia.tipo')
+  //     .addSelect('detalleCupon.id', 'idBeneficio')
+  //     .addSelect('detalleCupon.titulo', 'tituloBeneficio')
+  //     .addSelect('detalleCupon.descripcion', 'descripcionBeneficio')
+  //     .addSelect('detalleCupon.cupon')
+  //     .addSelect('detalleCupon.imagenUrl', 'imagenUrlBeneficio')
+  //     .addSelect('detalleCupon.descuento')
+  //     .addSelect('detalleCupon.fecha')
+  //     .leftJoin('usuario.insignias', 'insignias')
+  //     .leftJoin('insignias.insignia', 'detalleInsignia')
+  //     .leftJoin('usuario.cupones', 'cupones')
+  //     .leftJoin('cupones.beneficio', 'detalleCupon')
+  //     .where('usuario.id = :userId', { userId })
+  //     .getRawOne();
+
+  //   return queryBuilder;
+  // }
+  async getUserWithInsigniasAndBeneficios(userId: number) {
+    const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
+      .where('usuario.id = :userId', { userId })
+      .leftJoinAndSelect('usuario.insignias', 'insignias')
+      .leftJoinAndSelect('insignias.insignia', 'detalleInsignia')
+      .leftJoinAndSelect('usuario.cupones', 'cupones')
+      .leftJoinAndSelect('cupones.beneficio', 'detalleCupon')
+      .addSelect('insignias.id', 'insignia_id')
+      .addSelect('insignias.fechaCompletado', 'insignias_fechaCompletado')
+      .addSelect('detalleInsignia.id', 'idInsignia')
+      .addSelect('detalleInsignia.titulo', 'detalleInsignia_titulo')
+      .addSelect('detalleInsignia.descripcion', 'detalleInsignia_descripcion')
+      .addSelect('detalleInsignia.imagenUrl', 'detalleInsignia_imagenUrl')
+      .addSelect('detalleInsignia.tipo', 'detalleInsignia_tipo')
+      .addSelect('cupones.id', 'cupon_id')
+      .addSelect('detalleCupon.id', 'idBeneficio')
+      .addSelect('detalleCupon.titulo', 'tituloBeneficio')
+      .addSelect('detalleCupon.descripcion', 'descripcionBeneficio')
+      .addSelect('detalleCupon.cupon', 'detalleCupon_cupon')
+      .addSelect('detalleCupon.imagenUrl', 'imagenUrlBeneficio')
+      .addSelect('detalleCupon.descuento', 'detalleCupon_descuento')
+      .addSelect('detalleCupon.fecha', 'detalleCupon_fecha');
   
-//   return queryBuilder;
-// }
-async getUserWithInsigniasAndBeneficios(userId: number) {
-  const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
-    .where('usuario.id = :userId', { userId })
-    .leftJoinAndSelect('usuario.insignias', 'insignias')
-    .leftJoinAndSelect('insignias.insignia', 'detalleInsignia')
-    .leftJoinAndSelect('usuario.cupones', 'cupones')
-    .leftJoinAndSelect('cupones.beneficio', 'detalleCupon')
-    .addSelect('insignias.id', 'insignia_id')
-    .addSelect('detalleInsignia.id', 'idInsignia')
-    .addSelect('detalleInsignia.titulo', 'detalleInsignia_titulo')
-    .addSelect('detalleInsignia.descripcion', 'detalleInsignia_descripcion')
-    .addSelect('detalleInsignia.imagenUrl', 'detalleInsignia_imagenUrl')
-    .addSelect('detalleInsignia.tipo', 'detalleInsignia_tipo')
-    .addSelect('cupones.id', 'cupon_id')
-    .addSelect('detalleCupon.id', 'idBeneficio')
-    .addSelect('detalleCupon.titulo', 'tituloBeneficio')
-    .addSelect('detalleCupon.descripcion', 'descripcionBeneficio')
-    .addSelect('detalleCupon.cupon', 'detalleCupon_cupon')
-    .addSelect('detalleCupon.imagenUrl', 'imagenUrlBeneficio')
-    .addSelect('detalleCupon.descuento', 'detalleCupon_descuento')
-    .addSelect('detalleCupon.fecha', 'detalleCupon_fecha');
-
-  const result = await queryBuilder.getRawOne();
-
-  if (result) {
-    const cuponFields = ['idBeneficio', 'tituloBeneficio', 'descripcionBeneficio', 'detalleCupon_cupon', 'imagenUrlBeneficio', 'detalleCupon_descuento', 'detalleCupon_fecha'];
-
-    const insigniaFields = ['idInsignia', 'detalleInsignia_titulo', 'detalleInsignia_descripcion', 'detalleInsignia_imagenUrl', 'detalleInsignia_tipo'];
-    // Verificar si todos los campos de cupones son nulos
-    const allCuponFieldsAreNull = cuponFields.every(field => result[field] === null);
-    const allInsigniaFieldsAreNull = insigniaFields.every(field => result[field] === null);
-
-    const usuario = {
-      id: result.usuario_id,
-      nombre: result.usuario_nombre,
-      correo: result.usuario_correo,
-      insignias: allInsigniaFieldsAreNull ? [] : [
-        {
-          id: result.idInsignia,
+    const results = await queryBuilder.getRawMany();
+  
+    if (results && results.length > 0) {
+      const usuario = {
+        id: results[0].usuario_id,
+        nombre: results[0].usuario_nombre,
+        correo: results[0].usuario_correo,
+        insignias: results.map(result => ({
+          id: result.insignia_id,
+          fechaCompletado: result.insignias_fechaCompletado,
+          idInsignia: result.idInsignia,
           titulo: result.detalleInsignia_titulo,
           descripcion: result.detalleInsignia_descripcion,
           imagenUrl: result.detalleInsignia_imagenUrl,
           tipo: result.detalleInsignia_tipo,
-        },
-      ],
-      cupones: allCuponFieldsAreNull ? [] : [
-        {
-          id: result.idBeneficio,
-          titulo: result.tituloBeneficio,
-          descripcion: result.descripcionBeneficio,
+        })),
+        cupones: results.map(result => ({
+          id: result.cupon_id,
+          idBeneficio: result.idBeneficio,
+          tituloBeneficio: result.tituloBeneficio,
+          descripcionBeneficio: result.descripcionBeneficio,
           cupon: result.detalleCupon_cupon,
-          imagenUrl: result.imagenUrlBeneficio,
+          imagenUrlBeneficio: result.imagenUrlBeneficio,
           descuento: result.detalleCupon_descuento,
           fecha: result.detalleCupon_fecha,
-        },
-      ],
-    };
-
-    return usuario;
+        })),
+      };
+  
+      return usuario;
+    }
+  
+    return null;
   }
-
-  return null;
-}
-
-
-
-
-
+  
 
   async getUserWithActividades(userId: number) {
     const queryBuilder = this.usuarioRepository
@@ -148,26 +140,23 @@ async getUserWithInsigniasAndBeneficios(userId: number) {
       .leftJoinAndSelect('registrosActividades.actividad', 'actividad')
       .leftJoinAndSelect('actividad.insignias', 'insignias')
       .where('usuario.id = :userId', { userId });
-  
+
     return queryBuilder.getOne();
   }
-  
-  
-  
 
   async findOne(id: number) {
-    const usuario = await this.usuarioRepository.findOneBy({ id })
-    if( !usuario ) throw new NotFoundException(`Usuario #${id} not found`);
+    const usuario = await this.usuarioRepository.findOneBy({ id });
+    if (!usuario) throw new NotFoundException(`Usuario #${id} not found`);
     return usuario;
   }
 
   async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
     const usuario = await this.usuarioRepository.preload({
       id: id,
-      ...updateUsuarioDto
-    })
+      ...updateUsuarioDto,
+    });
 
-    if( !usuario ) throw new NotFoundException(`Usuario #${id} not found`);
+    if (!usuario) throw new NotFoundException(`Usuario #${id} not found`);
     return this.usuarioRepository.save(usuario);
   }
 
@@ -185,6 +174,4 @@ async getUserWithInsigniasAndBeneficios(userId: number) {
       'Unexpected error, check server logs!!',
     );
   }
-
-
 }
