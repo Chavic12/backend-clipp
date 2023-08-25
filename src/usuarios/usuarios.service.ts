@@ -106,21 +106,20 @@ export class UsuariosService {
         nombre: results[0].usuario_nombre,
         correo: results[0].usuario_correo,
         insignias: results[0].insignia_id ? results.map(result => ({
-          id: result.insignia_id,
-          fechaCompletado: result.insignias_fechaCompletado,
-          idInsignia: result.idInsignia,
+         
+          id: result.idInsignia,
           titulo: result.detalleInsignia_titulo,
           descripcion: result.detalleInsignia_descripcion,
           imagenUrl: result.detalleInsignia_imagenUrl,
           tipo: result.detalleInsignia_tipo,
         })) : [],
         cupones: results[0].cupon_id ? results.map(result => ({
-          id: result.cupon_id,
-          idBeneficio: result.idBeneficio,
-          tituloBeneficio: result.tituloBeneficio,
-          descripcionBeneficio: result.descripcionBeneficio,
+          
+          id: result.idBeneficio,
+          titulo: result.tituloBeneficio,
+          descripcion: result.descripcionBeneficio,
           cupon: result.detalleCupon_cupon,
-          imagenUrlBeneficio: result.imagenUrlBeneficio,
+          imagenUrl: result.imagenUrlBeneficio,
           descuento: result.detalleCupon_descuento,
           fecha: result.detalleCupon_fecha,
         })) : [],
