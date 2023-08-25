@@ -1,8 +1,9 @@
 import { Insignia } from "src/insignias/entities/insignia.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
+@Index(['usuario', 'insignia'], { unique: true }) // Índice único en las relaciones
 export class RegistroInsignia {
 
     @PrimaryGeneratedColumn()
