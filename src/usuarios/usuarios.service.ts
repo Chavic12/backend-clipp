@@ -117,7 +117,7 @@ async getUserWithInsigniasAndBeneficios(userId: number) {
           tipo: result.detalleInsignia_tipo,
         },
       ],
-      cupones: [
+      cupones: allCuponFieldsAreNull ? [] : [
         {
           id: result.idBeneficio,
           titulo: result.tituloBeneficio,
