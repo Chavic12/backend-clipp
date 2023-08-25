@@ -55,6 +55,9 @@ export class UsuariosService {
     return queryBuilder;
   }
 
+
+
+
   async getUserWithActividades(userId: number) {
     const queryBuilder = this.usuarioRepository
       .createQueryBuilder('usuario')
