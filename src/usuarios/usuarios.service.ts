@@ -44,10 +44,13 @@ export class UsuariosService {
 
   async getUserWithInsigniasAndBeneficios(userId: number) {
     const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
-      .leftJoinAndSelect('usuario.insignias', 'insignias')
-      .leftJoinAndSelect('usuario.cupones', 'cupones')
       .where('usuario.id = :userId', { userId })
+      .leftJoinAndSelect('usuario.insignias', 'insignias')
+      .leftJoinAndSelect('insignias.insignia', 'detalleInsignia') // Cargar detalles de la insignia
+      .leftJoinAndSelect('usuario.cupones', 'cupones')
+      .leftJoinAndSelect('cupones.beneficio', 'detalleCupon') // Cargar detalles del cupón
       .getOne();
+  
   
     return queryBuilder;
   }

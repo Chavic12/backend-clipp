@@ -24,6 +24,7 @@ export class RegistroInsigniaService {
     const idUsuario = createRegistroInsigniaDto.usuarioId;
     const idInsignia = createRegistroInsigniaDto.insigniaId;
     console.log(idUsuario)
+    console.log(idInsignia)
     const usuario = await this.usuarioRepository.findOneBy({id: idUsuario});
     const insignia = await this.insigniaRepository.findOneBy({id: idInsignia});
     console.log(usuario)

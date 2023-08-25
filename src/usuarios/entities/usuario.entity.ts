@@ -17,9 +17,9 @@ export class Usuario {
   @OneToMany(() => RegistroActividad, registro => registro.usuario)
   registroActividad: RegistroActividad[];
 
-  @OneToMany(() => RegistroInsignia, regInsignia => regInsignia.insignia)
+  @OneToMany(() => RegistroInsignia, regInsignia => regInsignia.usuario)
   insignias: RegistroInsignia[];
 
-  @OneToMany(() => RegistroBeneficio, regBeneficio => regBeneficio.beneficio)
+  @OneToMany(() => RegistroBeneficio, regBeneficio => regBeneficio.usuario)
   cupones: RegistroBeneficio[];
 }
