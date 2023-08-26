@@ -11,6 +11,8 @@ import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { Actividade } from 'src/actividades/entities/actividade.entity';
+import { RegistroActividad } from 'src/registro-actividad/entities/registro-actividad.entity';
 
 @Injectable()
 export class UsuariosService {
@@ -19,17 +21,34 @@ export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Actividade)
+    private readonly actividadRepository: Repository<Actividade>,
+    @InjectRepository(RegistroActividad)
+    private readonly registroActividadRepository: Repository<RegistroActividad>,
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     try {
       const usuario = this.usuarioRepository.create(createUsuarioDto);
+      const actividades = await this.actividadRepository.find();
       await this.usuarioRepository.save(usuario);
+      for ( const actividad of actividades) { 
+        const registro = this.registroActividadRepository.create({
+          usuario,
+          actividad,
+          estado: false,
+          progreso: 0,
+        });
+        await this.registroActividadRepository.save(registro);
+      }
+
+
       return usuario;
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
+
 
   async findAll(paginationDto: PaginationDto) {
     const { limit = 10, offset = 0 } = paginationDto;
