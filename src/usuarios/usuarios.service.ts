@@ -32,7 +32,7 @@ export class UsuariosService {
       const usuario = this.usuarioRepository.create(createUsuarioDto);
       const actividades = await this.actividadRepository.find();
       await this.usuarioRepository.save(usuario);
-      for ( const actividad of actividades) { 
+      for (const actividad of actividades) {
         const registro = this.registroActividadRepository.create({
           usuario,
           actividad,
@@ -42,13 +42,11 @@ export class UsuariosService {
         await this.registroActividadRepository.save(registro);
       }
 
-
       return usuario;
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
-
 
   async findAll(paginationDto: PaginationDto) {
     const { limit = 10, offset = 0 } = paginationDto;
@@ -95,12 +93,16 @@ export class UsuariosService {
   //   return queryBuilder;
   // }
   async getUserWithInsigniasAndBeneficios(userId: number) {
-    const queryBuilder = this.usuarioRepository.createQueryBuilder('usuario')
+    const queryBuilder = this.usuarioRepository
+      .createQueryBuilder('usuario')
       .where('usuario.id = :userId', { userId })
       .leftJoinAndSelect('usuario.insignias', 'insignias')
       .leftJoinAndSelect('insignias.insignia', 'detalleInsignia')
       .leftJoinAndSelect('usuario.cupones', 'cupones')
       .leftJoinAndSelect('cupones.beneficio', 'detalleCupon')
+      .addSelect('usuario.id', 'usuario_id')
+      .addSelect('usuario.nombre', 'usuario_nombre')
+      .addSelect('usuario.correo', 'usuario_correo')
       .addSelect('insignias.id', 'insignia_id')
       .addSelect('insignias.fechaCompletado', 'insignias_fechaCompletado')
       .addSelect('detalleInsignia.id', 'idInsignia')
@@ -116,40 +118,51 @@ export class UsuariosService {
       .addSelect('detalleCupon.imagenUrl', 'imagenUrlBeneficio')
       .addSelect('detalleCupon.descuento', 'detalleCupon_descuento')
       .addSelect('detalleCupon.fecha', 'detalleCupon_fecha');
-  
+
     const results = await queryBuilder.getRawMany();
-  
+
     if (results && results.length > 0) {
       const usuario = {
         id: results[0].usuario_id,
         nombre: results[0].usuario_nombre,
         correo: results[0].usuario_correo,
-        insignias: results[0].insignia_id ? results.map(result => ({
-         
-          id: result.idInsignia,
-          titulo: result.detalleInsignia_titulo,
-          descripcion: result.detalleInsignia_descripcion,
-          imagenUrl: result.detalleInsignia_imagenUrl,
-          tipo: result.detalleInsignia_tipo,
-        })) : [],
-        cupones: results[0].cupon_id ? results.map(result => ({
-          
-          id: result.idBeneficio,
-          titulo: result.tituloBeneficio,
-          descripcion: result.descripcionBeneficio,
-          cupon: result.detalleCupon_cupon,
-          imagenUrl: result.imagenUrlBeneficio,
-          descuento: result.detalleCupon_descuento,
-          fecha: result.detalleCupon_fecha,
-        })) : [],
+        insignias: [],
+        cupones: [],
       };
-  
+
+      const beneficiosSet = new Set(); // Conjunto para mantener beneficios únicos
+
+      results.forEach((result) => {
+        if (result.insignia_id) {
+          usuario.insignias.push({
+            id: result.idInsignia,
+            titulo: result.detalleInsignia_titulo,
+            descripcion: result.detalleInsignia_descripcion,
+            imagenUrl: result.detalleInsignia_imagenUrl,
+            tipo: result.detalleInsignia_tipo,
+          });
+        }
+
+        if (result.cupon_id && !beneficiosSet.has(result.idBeneficio)) {
+          usuario.cupones.push({
+            id: result.idBeneficio,
+            titulo: result.tituloBeneficio,
+            descripcion: result.descripcionBeneficio,
+            cupon: result.detalleCupon_cupon,
+            imagenUrl: result.imagenUrlBeneficio,
+            descuento: result.detalleCupon_descuento,
+            fecha: result.detalleCupon_fecha,
+          });
+          beneficiosSet.add(result.idBeneficio);
+        }
+      });
+
       return usuario;
     }
-  
+
     return null;
   }
-  
+
   async getUserWithActividades(userId: number) {
     const queryBuilder = this.usuarioRepository
       .createQueryBuilder('usuario')
