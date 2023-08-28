@@ -20,6 +20,7 @@ export class PublicidadService {
 
   async create(createPublicidadDto: CreatePublicidadDto, file: Express.Multer.File) {
     try {
+      console.log(file)
       const publicidad = this.publicidadRepository.create({
         ...createPublicidadDto,
       });

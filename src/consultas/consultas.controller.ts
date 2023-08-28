@@ -14,4 +14,9 @@ export class ConsultasController {
   async getTopUsabilidadInsignias(): Promise<any[]> {
     return this.consultasService.getTopUsabilidadInsignias();
   }
+
+  @Get('insignias')
+  async obtenerInsigniasUltimos4Meses() {
+    return this.consultasService.obtenerInsigniasUltimos4Meses();
+  }
 }

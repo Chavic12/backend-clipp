@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Insignia } from 'src/insignias/entities/insignia.entity';
 import { RegistroInsignia } from 'src/registro-insignia/entities/registro-insignia.entity';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import { Repository } from 'typeorm';
@@ -12,6 +13,8 @@ export class ConsultasService {
     private readonly usuarioRepository: Repository<Usuario>,
     @InjectRepository(RegistroInsignia)
     private readonly registroInsigniaRepository: Repository<RegistroInsignia>,
+    @InjectRepository(Insignia)
+    private readonly insigniaRepository: Repository<Insignia>,
     ) {}
 
     async getTopFidelizacionInsignias(): Promise<any[]> {
@@ -40,6 +43,17 @@ export class ConsultasService {
       return query.getRawMany();
     }
     
+    async obtenerInsigniasUltimos4Meses() {
+      const query = this.registroInsigniaRepository.createQueryBuilder('insignia')
+        .select('DATE_FORMAT(insignia.fechaCompletado, "%M")', 'mes')
+        .addSelect('COUNT(insignia.id)', 'cantidad_obtenida')
+        .where('insignia.fechaCompletado >= DATE_SUB(CURDATE(), INTERVAL 4 MONTH)')
+        .groupBy('mes')
+        .orderBy('MIN(insignia.fechaCompletado)', 'ASC')
+        .getRawMany();
+  
+      return query;
+    }
     
 
 }
