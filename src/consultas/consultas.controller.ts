@@ -19,4 +19,18 @@ export class ConsultasController {
   async obtenerInsigniasUltimos4Meses() {
     return this.consultasService.obtenerInsigniasUltimos4Meses();
   }
+  @Get('top')
+  async getTopUsuarios() {
+    const topUsuarios = await this.consultasService.getTopUsuarios();
+    return topUsuarios;
+  }
+  @Get('tabla')
+  async getUsuariosConInsigniasYBeneficios() {
+    return this.consultasService.getUsuariosConInsigniasYBeneficios();
+  }
+
+  @Get('tabla2')
+  async getUsuariosConInsigniasYBeneficios2() {
+    return this.consultasService.getUsabilidadInsignias();
+  }
 }

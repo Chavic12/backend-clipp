@@ -26,6 +26,10 @@ import { ConsultasModule } from './consultas/consultas.module';
       password: 'wDKMORXqlQHaGl3ljqKY',
       autoLoadEntities: true,
       synchronize: true,
+      extra: {
+        sql_mode: 'NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER',
+      },
+      
     }),
     
     UsuariosModule,
