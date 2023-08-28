@@ -17,7 +17,7 @@ export class Actividade {
     @OneToMany(() => RegistroActividad, registro => registro.actividad, {cascade: true})
     registros: RegistroActividad[];
 
-    @OneToMany( () => Insignia, insignia => insignia.actividad)
+    @OneToMany( () => Insignia, insignia => insignia.actividad, {cascade: true})
     insignias: Insignia[];
 
 }
