@@ -9,10 +9,10 @@ export class RegistroBeneficio {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne( () => Usuario, usuario => usuario.id)
+    @ManyToOne( () => Usuario, usuario => usuario.id, { onDelete: 'CASCADE' })
     usuario: Usuario;
 
-    @ManyToOne( () => Beneficio, beneficio => beneficio.id)
+    @ManyToOne( () => Beneficio, beneficio => beneficio.id, { onDelete: 'CASCADE' })
     beneficio: Beneficio;
 
     @Column('timestamp', {nullable: true})

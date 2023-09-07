@@ -14,10 +14,10 @@ export class Actividade {
     @Column('double')
     total: number;
 
-    @OneToMany(() => RegistroActividad, registro => registro.actividad, {cascade: true})
+    @OneToMany(() => RegistroActividad, registro => registro.actividad,)
     registros: RegistroActividad[];
 
-    @OneToMany( () => Insignia, insignia => insignia.actividad, {cascade: true})
+    @OneToMany( () => Insignia, insignia => insignia.actividad,)
     insignias: Insignia[];
 
 }

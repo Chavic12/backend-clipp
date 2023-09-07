@@ -7,10 +7,10 @@ export class RegistroActividad {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne( () => Usuario, usuario => usuario.id)
+    @ManyToOne( () => Usuario, usuario => usuario.id, { onDelete: 'CASCADE' })
     usuario: Usuario;
 
-    @ManyToOne( () => Actividade, actividad => actividad.id)
+    @ManyToOne( () => Actividade, actividad => actividad.id, { onDelete: 'CASCADE' })
     actividad: Actividade;
 
     @Column('boolean')

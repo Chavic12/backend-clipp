@@ -9,10 +9,10 @@ export class RegistroInsignia {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne( () => Usuario, usuario => usuario.id)
+    @ManyToOne( () => Usuario, usuario => usuario.id, { onDelete: 'CASCADE' })
     usuario: Usuario;
 
-    @ManyToOne( () => Insignia, insignia => insignia.id)
+    @ManyToOne( () => Insignia, insignia => insignia.id, { onDelete: 'CASCADE' })
     insignia: Insignia;
 
     @Column('timestamp', {nullable: true})
