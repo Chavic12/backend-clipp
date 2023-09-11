@@ -19,11 +19,11 @@ import { ConsultasModule } from './consultas/consultas.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql', // Cambiamos 'postgres' a 'mysql' para MySQL
-      host: 'containers-us-west-38.railway.app',
-      port: 5682,
+      host: 'containers-us-west-43.railway.app',
+      port: 6834,
       database: 'railway',
       username: 'root',
-      password: 'wDKMORXqlQHaGl3ljqKY',
+      password: 'GS8kta2SAyh5s5vn00y9',
       autoLoadEntities: true,
       synchronize: true,
       extra: {
