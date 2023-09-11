@@ -8,4 +8,7 @@ export class Publicidad {
     @Column('text', { nullable: true })
     imagenUrl: string;
 
+    @Column('text', { nullable: true })
+    ruta: string;
+
 }
