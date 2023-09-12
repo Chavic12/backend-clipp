@@ -486,7 +486,8 @@
     ```
     {
       "nombre": "Pedir 10 taxis",
-      "descripcion": "Hacer el pedido de 10 taxis"
+      "descripcion": "Hacer el pedido de 10 taxis",
+      "total": 10
     }
     ```
   
