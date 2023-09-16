@@ -10,5 +10,5 @@ export class CreateInsigniaDto {
     @IsString()
     imagenUrl?: string;
     @IsInt()
-    actividadId: number;
+    actividadId?: number;
 }

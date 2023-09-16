@@ -18,7 +18,7 @@ export class Insignia {
     @OneToMany(() => RegistroInsignia, registro => registro.insignia)
     registros: RegistroInsignia[];
 
-    @ManyToOne(() => Actividade, actividad => actividad.insignias, { onDelete: 'CASCADE' })
-    actividad: Actividade;
+    @ManyToOne(() => Actividade, actividad => actividad.insignias, { onDelete: 'CASCADE', nullable: true })
+    actividad?: Actividade;
 
 }

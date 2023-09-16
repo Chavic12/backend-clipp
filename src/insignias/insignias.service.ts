@@ -37,6 +37,12 @@ export class InsigniasService {
       id: idActividad,
     });
 
+    if( idActividad) {
+      const actividad = await this.actividadRepository.findOneBy({
+        id: idActividad,
+      })
+    }
+
     if (!actividad) {
       throw new NotFoundException(
         `Actividad con ID ${idActividad} no encontrado`,
@@ -46,8 +52,12 @@ export class InsigniasService {
     try {
       const newInsignia = this.insigniaRepository.create({
         ...createInsigniaDto,
-        actividad,
       });
+      if (idActividad) {
+        newInsignia.actividad = await this.actividadRepository.findOneBy({
+          id: idActividad,
+        });
+      }
       const savedInsignia = await this.insigniaRepository.save(newInsignia);
 
       const uploadedImage: UploadApiResponse | UploadApiErrorResponse =
