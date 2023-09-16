@@ -13,9 +13,6 @@ export class RegistroActividad {
     @ManyToOne( () => Actividade, actividad => actividad.id, { onDelete: 'CASCADE' })
     actividad: Actividade;
 
-    @Column('boolean')
-    estado: boolean;
-
     @Column('double', { nullable: true })
     progreso: number;
 

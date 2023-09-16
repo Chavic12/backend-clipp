@@ -36,7 +36,6 @@ export class UsuariosService {
         const registro = this.registroActividadRepository.create({
           usuario,
           actividad,
-          estado: false,
           progreso: 0,
         });
         await this.registroActividadRepository.save(registro);

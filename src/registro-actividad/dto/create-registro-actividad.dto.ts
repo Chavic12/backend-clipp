@@ -6,8 +6,7 @@ export class CreateRegistroActividadDto {
     @IsInt()
     actividadId: number;
     @IsBoolean()
-    @IsOptional()
-    estado?: boolean;
+
     @IsDate()
     @IsOptional()
     fechaCompletado?: Date;
