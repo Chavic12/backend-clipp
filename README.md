@@ -911,4 +911,10 @@
 - **fechaCompletado** (Tipo: TIMESTAMP): Fecha de completado del registro (puede ser nulo).
 - **usuarioId** (Tipo: INT): ID del usuario asociado al registro (puede ser nulo).
 - **insigniaId** (Tipo: INT): ID de la insignia asociada al registro (puede ser nulo).
+- 
+ Esta futura implementación permitirá asociar directamente las insignias a los diversos servicios que Clipp proporciona a sus usuarios.
+
+La vinculación entre insignias y servicios será una mejora significativa que facilitará la gestión y seguimiento de las recompensas en relación con las actividades y beneficios asociados a Clipp. Esta actualización se espera que enriquezca la experiencia del usuario, proporcionando una relación más clara entre las metas alcanzadas y los servicios a los que tendrán acceso.
+
+Esta futura implementación fortalecerá la interconexión entre nuestro sistema de recompensas y el ecosistema de servicios de Clipp, brindando un mayor valor a nuestros clientes y usuarios.
 
