@@ -15,12 +15,18 @@ import { CreateBeneficioDto } from './dto/create-beneficio.dto';
 import { UpdateBeneficioDto } from './dto/update-beneficio.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { Beneficio } from './entities/beneficio.entity';
 
+@ApiTags('Beneficios')
 @Controller('beneficios')
 export class BeneficiosController {
   constructor(private readonly beneficiosService: BeneficiosService) {}
 
+  
   @Post()
+  @ApiResponse({ status: 201, description: 'The record has been successfully created.', type: Beneficio})
+  @ApiResponse({ status: 400, description: 'Bad Request.'})
   @UseInterceptors(FileInterceptor('imagenUrl')) // Usa FileInterceptor para manejar la subida del archivo
   create(
     @UploadedFile() file: Express.Multer.File,

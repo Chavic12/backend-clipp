@@ -4,12 +4,16 @@ import { CreateInsigniaDto } from './dto/create-insignia.dto';
 import { UpdateInsigniaDto } from './dto/update-insignia.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Insignias')
 @Controller('insignias')
 export class InsigniasController {
   constructor(private readonly insigniasService: InsigniasService) {}
 
   @Post()
+  @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
+  @ApiResponse({ status: 400, description: 'Bad Request.'})
   @UseInterceptors(FileInterceptor('imagenUrl')) // Usa FileInterceptor para manejar la subida del archivo
   create(
     @UploadedFile() file: Express.Multer.File,
