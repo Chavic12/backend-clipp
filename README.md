@@ -859,3 +859,56 @@
   - Ruta: `/api/registro-beneficio`
   - Ejemplo:
     ![Post registro-insignia](ApiExamples/registroBeneficioPost.png)
+
+
+### Base de datos
+![Base de datos](ApiExamples/BDD.png)
+## Informe del Sistema de Recompensas para la Empresa Clipp
+
+### 1. Tabla `actividade`
+- **id** (Tipo: INT): Identificador único de la actividad.
+- **nombre** (Tipo: TEXT): Nombre de la actividad.
+- **descripcion** (Tipo: TEXT): Descripción de la actividad.
+- **total** (Tipo: DOUBLE): Valor total relacionado con la actividad.
+
+### 2. Tabla `beneficio`
+- **id** (Tipo: INT): Identificador único del beneficio.
+- **titulo** (Tipo: TEXT): Título del beneficio.
+- **descripcion** (Tipo: TEXT): Descripción del beneficio.
+- **cupon** (Tipo: TEXT): Código de cupón relacionado con el beneficio.
+- **imagenUrl** (Tipo: TEXT): URL de la imagen asociada al beneficio (puede ser nulo).
+- **descuento** (Tipo: TEXT): Descripción del descuento proporcionado por el beneficio.
+- **fecha** (Tipo: TIMESTAMP): Fecha asociada al beneficio (puede ser nulo).
+
+### 3. Tabla `insignia`
+- **id** (Tipo: INT): Identificador único de la insignia.
+- **titulo** (Tipo: TEXT): Título de la insignia.
+- **descripcion** (Tipo: TEXT): Descripción de la insignia.
+- **imagenUrl** (Tipo: TEXT): URL de la imagen asociada a la insignia (puede ser nulo).
+- **tipo** (Tipo: TEXT): Tipo de la insignia.
+- **actividadId** (Tipo: INT): ID de la actividad asociada a la insignia (puede ser nulo).
+
+### 4. Tabla `usuario`
+- **id** (Tipo: INT): Identificador único del usuario.
+- **nombre** (Tipo: TEXT): Nombre del usuario.
+- **correo** (Tipo: TEXT): Dirección de correo electrónico del usuario.
+
+### 5. Tabla `registro_actividad`
+- **id** (Tipo: INT): Identificador único del registro de actividad.
+- **progreso** (Tipo: DOUBLE): Progreso relacionado con la actividad (puede ser nulo).
+- **fechaCompletado** (Tipo: TIMESTAMP): Fecha de completado del registro (puede ser nulo).
+- **usuarioId** (Tipo: INT): ID del usuario asociado al registro (puede ser nulo).
+- **actividadId** (Tipo: INT): ID de la actividad asociada al registro (puede ser nulo).
+
+### 6. Tabla `registro_beneficio`
+- **id** (Tipo: INT): Identificador único del registro de beneficio.
+- **fechaCompletado** (Tipo: TIMESTAMP): Fecha de completado del registro (puede ser nulo).
+- **usuarioId** (Tipo: INT): ID del usuario asociado al registro (puede ser nulo).
+- **beneficioId** (Tipo: INT): ID del beneficio asociado al registro (puede ser nulo).
+
+### 7. Tabla `registro_insignia`
+- **id** (Tipo: INT): Identificador único del registro de insignia.
+- **fechaCompletado** (Tipo: TIMESTAMP): Fecha de completado del registro (puede ser nulo).
+- **usuarioId** (Tipo: INT): ID del usuario asociado al registro (puede ser nulo).
+- **insigniaId** (Tipo: INT): ID de la insignia asociada al registro (puede ser nulo).
+
